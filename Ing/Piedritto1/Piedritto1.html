@@ -1,0 +1,96 @@
+<html>
+<head>
+<title>Piedritto.html</title>
+<!-- Created by Maple 7.00, IBM INTEL NT -->
+</head>
+<body bgcolor="FFFFFF">
+<basefont size=3>
+<a name="MapleAutoBookmark1">
+<a name="MapleAutoBookmark2">
+<p align=left>
+<b><font color=#000000 size=5>Piedritto Incastrato al Piede e Libero in Sommità</font></b>
+</p>
+<p align=center>
+<font color=#000000>G.Piluso - Febbraio 2004<br>
+</font>
+</p>
+<p align=left>
+<font color=#000000>Si assume il segno positivo per:<br>
+1 - gli spostamenti verso il basso;<br>
+2 - le forze concentrate verso il basso;<br>
+3 - il caricodistribuito verso il basso;<br>
+4 - i momenti concentrati antiorari.<br>
+5 - Forze Concentrate = F*Dirac(z-valore ascissa)<br>
+6 - Coppie Concentrate = M*Dirac(1, z-valore ascissa)<br>
+7 - Carichi Distribuiti Parziali = q*Heaviside(z-valore ascissa)<br>
+8 - Carichi Distribuiti = q</font>
+</p>
+<a name="MapleAutoBookmark3">
+<p align=left>
+<b><font color=#000000 size=5>Inizializzazione</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+restart;</font></b>
+</p>
+<a name="MapleAutoBookmark4">
+<p align=left>
+<b><font color=#000000 size=5>Equazioni della Linea Elastica</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+alpha:=P/(E*J):<br>
+ode:=diff(v(z),z$2)=-(alpha^2)*(v(z)-delta):</font></b>
+</p>
+<a name="MapleAutoBookmark5">
+<p align=left>
+<b><font color=#000000 size=5>Condizioni al Contorno</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+ic:={v(0)=0, D(v)(0)=0}:</font></b>
+</p>
+<a name="MapleAutoBookmark6">
+<p align=left>
+<b><font color=#000000 size=5>Risoluzione dell'Equazione Differenziale</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+sol1:=dsolve({ode} union ic,{v(z)});</font></b>
+</p>
+<p align=center>
+<img src="images/Piedritto1.gif" width=216 height=45 alt="sol1 := v(z) = -cos(P/E/J*z)*delta+delta">
+</p>
+<a name="MapleAutoBookmark7">
+<p align=left>
+<b><font color=#000000 size=5>Ricava la funzione v(z)</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+eval(v(z),sol1):<br>
+v:=unapply(%,z):</font></b>
+</p>
+<a name="MapleAutoBookmark8">
+<p align=left>
+<b><font color=#000000 size=5>Ricava il "P critico" in funzione della luce "L" e la luce libera di inflessione "Lo"</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+Pcrit:=solve(v(L)=delta,P);<br>
+Lo:=denom(%);</font></b>
+</p>
+<p align=center>
+<img src="images/Piedritto2.gif" width=119 height=45 alt="Pcrit := 1/2*Pi*J*E/L">
+</p>
+<p align=center>
+<img src="images/Piedritto3.gif" width=74 height=20 alt="Lo := 2*L">
+</p>
+</basefont>
+</body>
+</html>
