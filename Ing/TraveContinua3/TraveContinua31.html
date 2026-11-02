@@ -1,0 +1,292 @@
+<html>
+<head>
+<title>TraveContinua3.html</title>
+<!-- Created by Maple 7.00, IBM INTEL NT -->
+</head>
+<body bgcolor="FFFFFF">
+<basefont size=3>
+<a name="MapleAutoBookmark1">
+<a name="MapleAutoBookmark2">
+<p align=left>
+<b><font color=#000000 size=5>Trave Continua Incastrata-Incernierata-Incernierata-Incastrata</font></b>
+</p>
+<p align=center>
+<font color=#000000>G.Piluso - Febbraio 2004<br>
+</font>
+</p>
+<p align=left>
+<font color=#000000>Si assume il segno positivo per:<br>
+1 - gli spostamenti verso il basso;<br>
+2 - le forze concentrate verso il basso;<br>
+3 - il caricodistribuito verso il basso;<br>
+4 - i momenti concentrati antiorari.<br>
+5 - Forze Concentrate = F*Dirac(z-valore ascissa)<br>
+6 - Coppie Concentrate = M*Dirac(1, z-valore ascissa)<br>
+7 - Carichi Distribuiti Parziali = q*Heaviside(z-valore ascissa)<br>
+8 - Carichi Distribuiti = q<br>
+</font>
+<img src="images/TraveContinua31.gif" width=514 height=178 alt="[Maple OLE 2.0 Object]">
+</p>
+<a name="MapleAutoBookmark3">
+<p align=left>
+<b><font color=#000000 size=5>Inizializzazione</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+restart:<br>
+with(plots):<br>
+with(plottools):<br>
+#with(DEtools):</font></b>
+</p>
+<a name="MapleAutoBookmark4">
+<p align=left>
+<b><font color=#000000 size=5>Dati di Input</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+# Numero di campate</font></b>
+<b><font color=#FF0000><br>
+NCampate:=3: <br>
+<br>
+#Sigma ammissibile<br>
+Sigma_amm:=1600.0:<br>
+<br>
+# Momento d'inerzia e modulo di resistenza della trave<br>
+J:=1500.0:<br>
+Wx:=155.0:<br>
+<br>
+# Modulo di elasticità del materiale<br>
+E:=2100000.0:<br>
+<br>
+# Carico distribuito<br>
+q:=10.0:<br>
+<br>
+# Lunghezze delle campate<br>
+L[1]:=130.0:<br>
+L[2]:=355.0:<br>
+L[3]:=130.0:<br>
+<br>
+# Tipo di carico per ogni campata<br>
+carico[1]:={q}:<br>
+carico[2]:={q}:<br>
+carico[3]:={q}:<br>
+<br>
+# Carichi e momenti concentrati agenti rispettivamente all'inizio ed alla fine di ogni campata oppure dove c'è il vincolo<br>
+P[1]:=0.0:      M[1]:=0.0:<br>
+P[2]:=0.0:      M[2]:=0.0:<br>
+P[3]:=0.0:      M[3]:=0.0:<br>
+P[4]:=0.0:      M[4]:=0.0:</font></b>
+</p>
+<p align=left>
+</p>
+<a name="MapleAutoBookmark5">
+<p align=left>
+<b><font color=#000000 size=5>Un Calcolo Preparatorio...</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+LL[0]:=0.0:<br>
+for i from 1 to NCampate do<br>
+  LL[i]:=LL[i-1]+L[i];<br>
+end do:<br>
+# Lunghezza totale trave<br>
+Ltot:=LL[NCampate]:</font></b>
+</p>
+<a name="MapleAutoBookmark6">
+<p align=left>
+<b><font color=#000000 size=5>Equazioni della Linea Elastica su Suolo alla Winkler</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>unassign('i');<br>
+ode[1]:=E*J*diff(v[1](z),z$4)=sum(carico[1][i],i=1..nops(carico[1])):<br>
+ode[2]:=E*J*diff(v[2](z),z$4)=sum(carico[2][i],i=1..nops(carico[2])):<br>
+ode[3]:=E*J*diff(v[3](z),z$4)=sum(carico[3][i],i=1..nops(carico[3])):</font></b>
+</p>
+<a name="MapleAutoBookmark7">
+<p align=left>
+<b><font color=#000000 size=5>Condizioni al Contorno</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+ic1:={<br>
+v[1](0)=0.0,<br>
+D(v[1])(0)=0.0,<br>
+<br>
+v[1](L[1])=v[2](0),<br>
+E*J*D(D(v[1]))(L[1])=-M[2],<br>
+E*J*D(D(v[2]))(0)=M[2],<br>
+E*J*D(D(D(v[1])))(L[1])-E*J*D(D(D(v[2])))(0)=-P[2],<br>
+<br>
+v[2](L[2])=v[3](0),<br>
+E*J*D(D(v[2]))(L[2])=-M[3],<br>
+E*J*D(D(v[3]))(0)=M[3],<br>
+E*J*D(D(D(v[2])))(L[2])-E*J*D(D(D(v[3])))(0)=-P[3],<br>
+<br>
+v[3](L[3])=0.0,<br>
+D(v[3])(L[3])=0.0<br>
+}:</font></b>
+</p>
+<a name="MapleAutoBookmark8">
+<p align=left>
+<b><font color=#000000 size=5>Risoluzione dell'Equazione Differenziale</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+st=time():<br>
+time() - st:<br>
+sol1:=dsolve({ode[1],ode[2],ode[3]} union ic1,{v[1](z),v[2](z),v[3](z)}):<br>
+time() - st:</font></b>
+</p>
+<a name="MapleAutoBookmark9">
+<p align=left>
+<b><font color=#000000 size=5>Traccia la trave</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+p[0]:=plot(0,z=0..Ltot):</font></b>
+</p>
+<a name="MapleAutoBookmark10">
+<p align=left>
+<b><font color=#000000 size=5>Traccia il Diagramma degli Abbassamenti</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+for i from 1 to NCampate do<br>
+  eval(v[i](z),sol1):<br>
+  v[i]:=unapply(%,z):<br>
+  abb[i]:=-v[i](z):<br>
+  p[i]:=plot(abb[i],z=0..L[i]):<br>
+end do:<br>
+for i from 2 to NCampate do<br>
+  p[i]:=translate(p[i],LL[i-1],0):<br>
+end do:<br>
+display([p[0],p[1],p[2],p[3]],title="Diagramma degli abbassamenti");</font></b>
+</p>
+<p align=center>
+<img src="images/TraveContinua32.gif" width=388 height=288 alt="[Maple Plot]">
+</p>
+<a name="MapleAutoBookmark11">
+<p align=left>
+<b><font color=#000000 size=5>Traccia il Diagramma delle Rotazioni</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+for i from 1 to NCampate do<br>
+  phi[i]:=diff(-v[i](z),z):  <br>
+  p_phi[i]:=plot(phi[i],z=0..L[i]):<br>
+end do:<br>
+for i from 2 to NCampate do<br>
+  p_phi[i]:=translate(p_phi[i],LL[i-1],0):<br>
+end do:<br>
+display([p[0],p_phi[1],p_phi[2],p_phi[3]],title="Diagramma delle rotazioni");</font></b>
+</p>
+<p align=center>
+<img src="images/TraveContinua33.gif" width=388 height=288 alt="[Maple Plot]">
+</p>
+<a name="MapleAutoBookmark12">
+<p align=left>
+<b><font color=#000000 size=5>Traccia il Diagramma dei Momenti</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+for i from 1 to NCampate do<br>
+  Mom[i]:=E*J*diff(v[i](z),z,z):<br>
+  p_Mom[i]:=plot(Mom[i],z=0..L[i]):<br>
+end do:<br>
+for i from 2 to NCampate do<br>
+  p_Mom[i]:=translate(p_Mom[i],LL[i-1],0):<br>
+end do:<br>
+display([p[0],p_Mom[1],p_Mom[2],p_Mom[3]],title="Diagramma dei Momenti");</font></b>
+</p>
+<p align=center>
+<img src="images/TraveContinua34.gif" width=388 height=288 alt="[Maple Plot]">
+</p>
+<a name="MapleAutoBookmark13">
+<p align=left>
+<b><font color=#000000 size=5>Traccia il Diagramma del Taglio</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+for i from 1 to NCampate do<br>
+  T[i]:=-E*J*diff(v[i](z),z,z,z):<br>
+  p_T[i]:=plot(T[i],z=0..L[i]):<br>
+end do:<br>
+for i from 2 to NCampate do<br>
+  p_T[i]:=translate(p_T[i],LL[i-1],0):<br>
+end do:<br>
+display([p[0],p_T[1],p_T[2],p_T[3]],title="Diagramma del taglio");</font></b>
+</p>
+<p align=center>
+<img src="images/TraveContinua35.gif" width=388 height=288 alt="[Maple Plot]">
+</p>
+<a name="MapleAutoBookmark14">
+<p align=left>
+<b><font color=#000000 size=5>Traccia il Diagramma delle Sigma</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+Sig[0]:=plot(Sigma_amm,z=0..Ltot,color=blue):<br>
+Sig[1]:=plot(-Sigma_amm,z=0..Ltot,color=blue):<br>
+for i from 1 to NCampate do<br>
+  Sigma[i]:=Mom[i]/Wx:<br>
+  p_S[i]:=plot(Sigma[i],z=0..L[i]):<br>
+end do:<br>
+for i from 2 to NCampate do<br>
+  p_S[i]:=translate(p_S[i],LL[i-1],0):<br>
+end do:<br>
+display([p[0],Sig[0],Sig[1],p_S[1],p_S[2],p_S[3]],title="Diagramma delle Sigma");</font></b>
+</p>
+<p align=center>
+<img src="images/TraveContinua36.gif" width=388 height=288 alt="[Maple Plot]">
+</p>
+<a name="MapleAutoBookmark15">
+<p align=left>
+<b><font color=#000000 size=5>Query</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+campata:=1;<br>
+ascissa:=0.0;<br>
+abbassamento:=evalf(v[campata](ascissa));<br>
+rotazione:=evalf(subs(z=ascissa,diff(v[campata](z),z)));<br>
+momento:=evalf(subs(z=ascissa,E*J*diff(v[campata](z),z$2)));<br>
+taglio:=evalf(subs(z=ascissa,E*J*diff(v[campata](z),z$3)));<br>
+sigma:=evalf(momento/Wx);</font></b>
+</p>
+<p align=center>
+<img src="images/TraveContinua37.gif" width=100 height=20 alt="campata := 1">
+</p>
+<p align=center>
+<img src="images/TraveContinua38.gif" width=93 height=20 alt="ascissa := 0.">
+</p>
+<p align=center>
+<img src="images/TraveContinua39.gif" width=140 height=20 alt="abbassamento := 0.">
+</p>
+<p align=center>
+<img src="images/TraveContinua310.gif" width=108 height=20 alt="rotazione := 0.">
+</p>
+<p align=center>
+<img src="images/TraveContinua311.gif" width=180 height=20 alt="momento := 315250.0000">
+</p>
+<p align=center>
+<img src="images/TraveContinua312.gif" width=163 height=20 alt="taglio := -3075.000000">
+</p>
+<p align=center>
+<img src="images/TraveContinua313.gif" width=130 height=20 alt="sigma := 2033.870968">
+</p>
+</basefont>
+</body>
+</html>
