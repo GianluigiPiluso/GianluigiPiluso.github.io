@@ -1,0 +1,185 @@
+<html>
+  <head>
+    <title>Giudizi Terze Classi GP 2011</title>
+
+    <script type="text/javascript">
+    /* Scrivi Giudizio */
+    var Str_Giudizio;
+	function ScriviGiudizio() {
+	  Str_Giudizio="";
+	  /* Str_Giudizio=document.getElementById("alunno") + Str_Giudizio; */
+	  /* Str_Giudizio=alunno.value; */
+	  /* document.modulo.giudizio.value=Str_Giudizio; */
+
+	  for (var i=0; i < document.modulo.alunno.length; i++) {
+	     if (document.modulo.alunno[i].checked) {
+	        Str_Giudizio = Str_Giudizio + document.modulo.alunno[i].value;
+	     }
+	  }
+
+	  for (var i=0; i < document.modulo.interesse.length; i++) {
+	     if (document.modulo.interesse[i].checked) {
+	        Str_Giudizio = Str_Giudizio + document.modulo.interesse[i].value;
+	     }
+	  }
+	  for (var i=0; i < document.modulo.dialogo.length; i++) {
+	     if (document.modulo.dialogo[i].checked) {
+	        Str_Giudizio = Str_Giudizio + document.modulo.dialogo[i].value;
+	     }
+	  }
+	  for (var i=0; i < document.modulo.attitudine.length; i++) {
+	     if (document.modulo.attitudine[i].checked) {
+	        Str_Giudizio = Str_Giudizio + document.modulo.attitudine[i].value;
+	     }
+	  }
+	  for (var i=0; i < document.modulo.applicazione.length; i++) {
+	     if (document.modulo.applicazione[i].checked) {
+	        Str_Giudizio = Str_Giudizio + document.modulo.applicazione[i].value;
+	     }
+	  }
+	  for (var i=0; i < document.modulo.assiduità.length; i++) {
+	     if (document.modulo.assiduità[i].checked) {
+	        Str_Giudizio = Str_Giudizio + document.modulo.assiduità[i].value;
+	     }
+	  }
+	  for (var i=0; i < document.modulo.preparazione.length; i++) {
+	     if (document.modulo.preparazione[i].checked) {
+	        Str_Giudizio = Str_Giudizio + document.modulo.preparazione[i].value;
+	     }
+	  }
+	  for (var i=0; i < document.modulo.provaStr.length; i++) {
+	     if (document.modulo.provaStr[i].checked) {
+	        Str_Giudizio = Str_Giudizio + document.modulo.provaStr[i].value;
+	     }
+	  }
+	  for (var i=0; i < document.modulo.esitoProva.length; i++) {
+	     if (document.modulo.esitoProva[i].checked) {
+	        Str_Giudizio = Str_Giudizio + document.modulo.esitoProva[i].value;
+	     }
+	  }
+
+
+
+	  document.modulo.giudizio.value=Str_Giudizio;
+    }
+
+    function Cancella() {
+      document.modulo.giudizio.value="";
+    }
+    </script>
+
+  </head>
+    <body>
+    <form method="post" name="modulo">
+
+      <!-- Tipologia -->
+      <table border=1 bgcolor=#E4E4E4 cellpadding=5>
+        <tr>
+          <td><b>Tipologia: </b>
+            <input type="radio" name="alunno" value="L'alunno, " checked>Alunno &nbsp;&nbsp;&nbsp;
+            <input type="radio" name="alunno" value="L'alunna, ">Alunna
+          </td>
+        </tr>
+      </table>
+
+      <table border=1 bgcolor=#E4E4E4 cellpadding=5>
+        <tr>
+          <td valign="top"><b>Interesse per la materia</b><br>
+            <input type="radio" name="interesse" value="poco interessato alla materia, ">Poco<br>
+            <input type="radio" name="interesse" value="interessato alla materia, ">Normale<br>
+            <input type="radio" name="interesse" value="seriamente interessato alla materia, ">Serio<br>
+            <input type="radio" name="interesse" value="il cui interesse verso la materia non è sempre evidente, ">Non sempre evidente<br>
+            <input type="radio" name="interesse" value="il cui interesse verso la materia è discontinuo, ">Discontinuo<br>
+            <input type="radio" name="interesse" value="il cui interesse verso la materia è limitato, ">Limitato
+          </td>
+          <td valign="top"><b>Partecipazione al dialogo educativo</b><br>
+            <input type="radio" name="dialogo" value="partecipa poco al dialogo educativo. ">Poco<br>
+            <input type="radio" name="dialogo" value="partecipa timidamente al dialogo educativo. ">Timidamente<br>
+            <input type="radio" name="dialogo" value="partecipa attivamente al dialogo educativo. ">Attivamente<br>
+            <input type="radio" name="dialogo" value="partecipa attivamente e propositivamente al dialogo educativo. ">Attiva e propositiva<br>
+            <input type="radio" name="dialogo" value="è presente al dialogo educativo ma la sua partecipazione non è del tutto appropriata. ">Presente ma non del tutto appropriata<br>
+            <input type="radio" name="dialogo" value="partecipa limitatamente al dialogo educativo. ">Limitata
+          </td>
+          <td valign="top"><b>Attitudine per la materia</b><br>
+            <input type="radio" name="attitudine" value="Scarsa l'attitudine per la materia, ">Scarsa<br>
+            <input type="radio" name="attitudine" value="Insufficiente l'attitudine per la materia, ">Insufficiente<br>
+            <input type="radio" name="attitudine" value="Mediocre l'attitudine per la materia, ">Mediocre<br>
+            <input type="radio" name="attitudine" value="Sufficiente l'attitudine per la materia, ">Sufficiente<br>
+            <input type="radio" name="attitudine" value="Discreta l'attitudine per la materia, ">Discreta<br>
+            <input type="radio" name="attitudine" value="Buona l'attitudine per la materia, ">Buona<br>
+            <input type="radio" name="attitudine" value="Ottima l'attitudine per la materia, ">Ottima
+          </td>
+          <td valign="top" width="100"><b>Applicazione a casa</b><br>
+            <input type="radio" name="applicazione" value="scarsa l'applicazione a casa, ">Scarsa<br>
+            <input type="radio" name="applicazione" value="insufficiente l'applicazione a casa, ">Insufficiente<br>
+            <input type="radio" name="applicazione" value="mediocre l'applicazione a casa, ">Mediocre<br>
+            <input type="radio" name="applicazione" value="sufficiente l'applicazione a casa, ">Sufficiente<br>
+            <input type="radio" name="applicazione" value="discreta l'applicazione a casa, ">Discreta<br>
+            <input type="radio" name="applicazione" value="buona l'applicazione a casa, ">Buona<br>
+            <input type="radio" name="applicazione" value="ottima l'applicazione a casa, ">Ottima
+          </td>
+          <td valign="top" width="100"><b>Assiduit&agrave; alle lezioni</b><br>
+            <input type="radio" name="assiduità" value="scarsa l'assiduità alle lezioni. ">Scarsa<br>
+            <input type="radio" name="assiduità" value="insufficiente l'assiduità alle lezioni. ">Insufficiente<br>
+            <input type="radio" name="assiduità" value="mediocre l'assiduità alle lezioni. ">Mediocre<br>
+            <input type="radio" name="assiduità" value="sufficiente l'assiduità alle lezioni. ">Sufficiente<br>
+            <input type="radio" name="assiduità" value="discreta l'assiduità alle lezioni. ">Discreta<br>
+            <input type="radio" name="assiduità" value="buona l'assiduità alle lezioni. ">Buona<br>
+            <input type="radio" name="assiduità" value="ottima l'assiduità alle lezioni. ">Ottima
+          </td>
+          <td valign="top" width="130"><b>Preparazione globale;</b><br>
+            <input type="radio" name="preparazione" value="La preparazione globale è nulla. In base a quanto esposto l'alunno: non conosce gli argomenti. Manca di requisiti minimi per l'applicazione: non risponde alle domande e/o consegna il foglio del compito in bianco. ">Nulla (1-2)<br>
+            <input type="radio" name="preparazione" value="La preparazione globale è scarsa. In base a quanto esposto l'alunno: ha conoscenze gravemente lacunose. Manca di requisiti minimi per l'applicazione; risponde in maniera estremamente parziale alle domande; utilizza il linguaggio in modo scorretto. ">Scarsa (3)<br>
+            <input type="radio" name="preparazione" value="La preparazione globale è insufficiente. In base a quanto esposto l'alunno: ha conoscenze lacunose. Presenta disorganicità nell'applicazione e incoerenza operativa e logica; utilizza il linguaggio in modo scorretto. ">Insufficiente (4)<br>
+            <input type="radio" name="preparazione" value="La preparazione globale è mediocre. In base a quanto esposto l'alunno: ha conoscenze limitate e/o parziali. Presenta difficoltà nei procedimenti operativi e nella concettualizzazione; il linguaggio non sempre è pertinente; soddisfa parzialmente gli obiettivi minimi stabiliti per l'esecuzione delle prove. ">Mediocre (5)<br>
+            <input type="radio" name="preparazione" value="La preparazione globale è sufficiente. In base a quanto esposto l'alunno: ha conoscenze essenziali dei contenuti svolti. Riesce a gestire applicazioni semplici anche guidate; il linguaggio lineare, essenziale, nel complesso corretto; soddisfa gli obiettivi minimi stabiliti per l'esecuzione delle prove. ">Sufficiente (6)<br>
+            <input type="radio" name="preparazione" value="La preparazione globale è discreta. In base a quanto esposto l'alunno: ha conoscenze complete per la maggior parte dei contenuti. Presenta relativa autonomia nelle applicazioni fondamentali; il linguaggio è nell'insieme corretto; soddisfa parte degli obiettivi stabiliti per l'esecuzione delle prove. ">Discreta (7)<br>
+            <input type="radio" name="preparazione" value="La preparazione globale è buona. In base a quanto esposto l'alunno: ha conoscenze complete di quasi tutti i contenuti. Presenta sostanziale autonomia nelle applicazioni fondamentali; comprende la maggior parte dei contenuti, li sa applicare e contestualizzare; espone i contenuti con correttezza e proprietà lessicale, usando la terminologia specifica; soddisfa la maggior parte degli obiettivi stabiliti per l'esecuzione delle prove. ">Buona (8)<br>
+            <input type="radio" name="preparazione" value="La preparazione globale è ottima. In base a quanto esposto l'alunno: ha conoscenze complete di tutti gli argomenti svolti. E' capace di risolvere autonomamente problemi e di operare collegamenti; linguaggio corretto e proprietà lessicale; organizza conoscenze e competenze scegliendo strategie adeguate ed in certe situazioni anche originali; soddisfa tutti gli obiettivi stabiliti per l'esecuzione delle prove. ">Ottima (9)<br>
+            <input type="radio" name="preparazione" value="La preparazione globale è eccellente. In base a quanto esposto l'alunno: ha conoscenze complete, argomentate di tutti gli argomenti svolti. Possiede autonomia nell'applicazione di procedimenti complessi e nuovi; espone i contenuti usando il lessico e la terminologia in modo preciso e corretto; espone in maniera precisa; organizza conoscenze e competenze scegliendo strategie adeguate ed in certe situazioni anche originali; soddisfa tutti gli obiettivi stabiliti per l'esecuzione delle prove. ">Eccellente (10)
+          </td>
+        </tr>
+      </table>
+
+      <table border=1 bgcolor=#E4E4E4 cellpadding=5>
+        <tr>
+          <td valign="top" colspan=2><b>Giudizio sulla prova strutturata o semi strutturata</b><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">
+            <input type="radio" name="provaStr" value="La prova strutturata è ">Strutturata<br>
+            <input type="radio" name="provaStr" value="La prova semi strutturata è ">Semi strutturata
+          </td>
+            <td valign="top">
+            <input type="radio" name="esitoProva" value="nulla.">Nulla (1-2)<br>
+            <input type="radio" name="esitoProva" value="scarsa.">Scarsa (3)<br>
+            <input type="radio" name="esitoProva" value="insufficiente.">Insufficiente (4)<br>
+            <input type="radio" name="esitoProva" value="mediocre.">Mediocre (5)<br>
+            <input type="radio" name="esitoProva" value="sufficiente.">Sufficiente (6)<br>
+            <input type="radio" name="esitoProva" value="discreta.">Discreta (7)<br>
+            <input type="radio" name="esitoProva" value="buona.">Buona (8)<br>
+            <input type="radio" name="esitoProva" value="ottima.">Ottima (9)<br>
+            <input type="radio" name="esitoProva" value="eccellente.">Eccellente (10)
+          </td>
+      </table>
+
+      <table>
+        <tr>
+	      <td>
+	        <input type="button" value="Scrivi Giudizio" onClick="ScriviGiudizio()">
+	      </td>
+	      <td>
+	       <input type="button" value="Cancella Giudizio" onClick="Cancella()">
+	      </td>
+        </tr>
+        <tr>
+	      <td colspan=2>
+	        <textarea name="giudizio" rows="10" cols="120"></textarea>
+	      </td>
+        </tr>
+      </table>
+
+      </form>
+	</body>
+</html>
