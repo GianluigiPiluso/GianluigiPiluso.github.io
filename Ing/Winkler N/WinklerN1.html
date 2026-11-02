@@ -1,0 +1,351 @@
+<html>
+<head>
+<title>WinklerN.html</title>
+<!-- Created by Maple 7.00, IBM INTEL NT -->
+</head>
+<body bgcolor="FFFFFF">
+<basefont size=3>
+<a name="MapleAutoBookmark1">
+<a name="MapleAutoBookmark2">
+<p align=left>
+<b><font color=#000000 size=5>Trave di Fondazione su Suolo Elastico alla Winkler</font></b>
+</p>
+<p align=center>
+<font color=#000000>G.Piluso - Febbraio 2004<br>
+</font>
+</p>
+<p align=left>
+<font color=#000000>Si assume il segno positivo per:<br>
+1 - gli spostamenti verso il basso;<br>
+2 - le forze concentrate verso il basso;<br>
+3 - il caricodistribuito verso il basso;<br>
+4 - i momenti concentrati antiorari.</font>
+<img src="images/WinklerN1.gif" width=626 height=148 alt="[Maple OLE 2.0 Object]">
+</p>
+<p align=left>
+<tt>&gt; </tt>
+</p>
+<a name="MapleAutoBookmark3">
+<p align=left>
+<b><font color=#000000 size=5>Inizializzazione</font></b>
+</p>
+<p align=left>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+restart:<br>
+with(plottools):<br>
+with(plots):</font></b>
+</p>
+<a name="MapleAutoBookmark4">
+<p align=left>
+<b><font color=#000000 size=5>Ingresso Dati<br>
+</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+NCampate:=5:<br>
+NCost:=NCampate*4:<br>
+k:=5.0:<br>
+q:=0.0:<br>
+B:=100.0:<br>
+E:=200000.0:<br>
+J:=1500000.0:<br>
+<br>
+L[1]:=1800.0:<br>
+L[2]:=1800.0:<br>
+L[3]:=1800.0:<br>
+L[4]:=1800.0:<br>
+L[5]:=1800.0:<br>
+<br>
+P[1]:=0.0:      M[1]:=0.0:<br>
+P[2]:=10000.0:  M[2]:=0.0:<br>
+P[3]:=10000.0:  M[3]:=0.0:<br>
+P[4]:=10000.0:  M[4]:=0.0:<br>
+P[5]:=10000.0:  M[5]:=0.0:<br>
+P[6]:=0.0:      M[6]:=0.0:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+</p>
+<a name="MapleAutoBookmark5">
+<p align=left>
+<b><font color=#000000 size=5>Alcuni calcoli preliminari</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+beta:=k*B:<br>
+alpha:=(beta/(4*E*J))^(1/4):<br>
+LL[0]:=0.0:<br>
+for i from 1 to NCampate do<br>
+  LL[i]:=LL[i-1]+L[i];<br>
+end do:<br>
+# Lunghezza totale trave<br>
+Ltot:=LL[NCampate]:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+</p>
+<a name="MapleAutoBookmark6">
+<p align=left>
+<b><font color=#000000 size=5>Soluzione generale dell'equazione differenziale</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+ik:=0:<br>
+for i from 1 to NCampate do<br>
+ww[i]:=q/beta+C[ik+1]*exp(alpha*z)*sin(alpha*z)+C[ik+2]*exp(alpha*z)*cos(alpha*z)+C[ik+3]*exp(-alpha*z)*sin(alpha*z)+C[ik+4]*exp(-alpha*z)*cos(alpha*z);<br>
+ik:=ik+4;<br>
+end do:<br>
+<br>
+for i from 1 to NCampate do<br>
+ w[i]:=unapply(ww[i],z);<br>
+end do:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+</p>
+<a name="MapleAutoBookmark7">
+<p align=left>
+<b><font color=#000000 size=5>Derivate 1°, 2° e 3° ordine</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+for i from 1 to NCampate do<br>
+  dw[i,1]:=diff(w[i](z),z):<br>
+  dw[i,2]:=diff(w[i](z),z$2):<br>
+  dw[i,3]:=diff(w[i](z),z$3):<br>
+end do:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+</p>
+<a name="MapleAutoBookmark8">
+<p align=left>
+<b><font color=#000000 size=5>Condizioni al contorno</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+eq[1]:=subs(z=0,dw[1,2])=-M[1]:<br>
+eq[2]:=subs(z=0,dw[1,3])=-P[1]:<br>
+<br>
+ik:=3:<br>
+for i from 1 to NCampate-1 do<br>
+eq[ik]:=subs(z=L[i],w[i](z))=subs(z=0,w[i+1](z)):<br>
+ik:=ik+1;<br>
+eq[ik]:=subs(z=L[i],dw[i,1])=subs(z=0,dw[i+1,1]):<br>
+ik:=ik+1;<br>
+eq[ik]:=subs(z=L[i],dw[i,2])-subs(z=0,dw[i+1,2])=-M[i+1]:<br>
+ik:=ik+1;<br>
+eq[ik]:=subs(z=L[i],dw[i,3])-subs(z=0,dw[i+1,3])=-P[i+1]:<br>
+ik:=ik+1;<br>
+end do:<br>
+<br>
+eq[NCost-1]:=subs(z=L[NCampate],dw[NCampate,2])=-M[NCampate+1]:<br>
+eq[NCost]:=subs(z=L[NCampate],dw[NCampate,3])=-P[NCampate+1]:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+</p>
+<a name="MapleAutoBookmark9">
+<p align=left>
+<b><font color=#000000 size=5>Risoluzione del sistema di equazioni</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>s1:=solve({seq(eq[i],i=1..NCost)},{seq(C[i],i=1..NCost)}):</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+</p>
+<a name="MapleAutoBookmark10">
+<p align=left>
+<b><font color=#000000 size=5>Traccia la trave</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>p[0]:=plot(0,z=0..Ltot):</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+</p>
+<a name="MapleAutoBookmark11">
+<p align=left>
+<b><font color=#000000 size=5>Traccia il diagramma degli abbassamenti</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+for i from 1 to NCampate do<br>
+  pw[i]:=subs(s1,w[i](z));<br>
+end do:<br>
+<br>
+for i from 1 to NCampate do<br>
+  p[i]:=plot(-pw[i]/(E*J),z=0..L[i]);<br>
+end do:<br>
+<br>
+for i from 2 to NCampate do<br>
+  p[i]:=translate(p[i],LL[i-1],0):<br>
+end do:<br>
+<br>
+display([p[0],seq(p[i],i=1..NCampate)],title="Diagramma degli abbassamenti");</font></b>
+</p>
+<p align=center>
+<img src="images/WinklerN2.gif" width=388 height=288 alt="[Maple Plot]">
+</p>
+<p align=left>
+<tt>&gt; </tt>
+</p>
+<a name="MapleAutoBookmark12">
+<p align=left>
+<b><font color=#000000 size=5>Traccia il diagramma delle rotazioni</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+for i from 1 to NCampate do<br>
+  pf[i]:=subs(s1,dw[i,1]);<br>
+end do:<br>
+<br>
+for i from 1 to NCampate do<br>
+  p_phi[i]:=plot(-pf[i]/(E*J),z=0..L[i]);<br>
+end do:<br>
+<br>
+for i from 2 to NCampate do<br>
+  p_phi[i]:=translate(p_phi[i],LL[i-1],0):<br>
+end do:<br>
+<br>
+display([p[0],seq(p_phi[i],i=1..NCampate)],title="Diagramma delle Rotazioni");</font></b>
+</p>
+<p align=center>
+<img src="images/WinklerN3.gif" width=388 height=288 alt="[Maple Plot]">
+</p>
+<p align=left>
+<tt>&gt; </tt>
+</p>
+<a name="MapleAutoBookmark13">
+<p align=left>
+<b><font color=#000000 size=5>Traccia il diagramma dei momenti</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+for i from 1 to NCampate do<br>
+  pm[i]:=subs(s1,dw[i,2]);<br>
+end do:<br>
+<br>
+for i from 1 to NCampate do<br>
+  p_Mom[i]:=plot(pm[i],z=0..L[i]);<br>
+end do:<br>
+<br>
+for i from 2 to NCampate do<br>
+  p_Mom[i]:=translate(p_Mom[i],LL[i-1],0):<br>
+end do:<br>
+<br>
+display([p[0],seq(p_Mom[i],i=1..NCampate)],title="Diagramma dei Momenti");</font></b>
+</p>
+<p align=center>
+<img src="images/WinklerN4.gif" width=388 height=288 alt="[Maple Plot]">
+</p>
+<p align=left>
+<tt>&gt; </tt>
+</p>
+<a name="MapleAutoBookmark14">
+<p align=left>
+<b><font color=#000000 size=5>Traccia il diagramma del taglio</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+for i from 1 to NCampate do<br>
+  pt[i]:=subs(s1,dw[i,3]);<br>
+end do:<br>
+<br>
+for i from 1 to NCampate do<br>
+  p_T[i]:=plot(pt[i],z=0..L[i]);<br>
+end do:<br>
+<br>
+for i from 2 to NCampate do<br>
+  p_T[i]:=translate(p_T[i],LL[i-1],0):<br>
+end do:<br>
+<br>
+display([p[0],seq(p_T[i],i=1..NCampate)],title="Diagramma del Taglio");</font></b>
+</p>
+<p align=center>
+<img src="images/WinklerN5.gif" width=388 height=288 alt="[Maple Plot]">
+</p>
+<p align=left>
+<tt>&gt; </tt>
+</p>
+<a name="MapleAutoBookmark15">
+<p align=left>
+<b><font color=#000000 size=5>Traccia il diagramma delle sigma</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+for i from 1 to NCampate do<br>
+  ps[i]:=subs(s1,k*w[i](z)/(E*J));<br>
+end do:<br>
+<br>
+for i from 1 to NCampate do<br>
+  p_sigma[i]:=plot(-ps[i],z=0..L[i]);<br>
+end do:<br>
+<br>
+for i from 2 to NCampate do<br>
+  p_sigma[i]:=translate(p_sigma[i],LL[i-1],0):<br>
+end do:<br>
+<br>
+display([p[0],seq(p_sigma[i],i=1..NCampate)],title="Diagramma delle Sigma");</font></b>
+</p>
+<p align=center>
+<img src="images/WinklerN6.gif" width=388 height=288 alt="[Maple Plot]">
+</p>
+<p align=left>
+<tt>&gt; </tt>
+</p>
+<a name="MapleAutoBookmark16">
+<p align=left>
+<b><font color=#000000 size=5>Query</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+campata:=1;<br>
+ascissa:=1800.0;<br>
+abbassamento:=evalf(subs(z=ascissa,pw[campata]/(E*J)));<br>
+rotazione:=evalf(subs(z=ascissa,pf[campata]/(E*J)));<br>
+momento:=evalf(subs(z=ascissa,pm[campata]));<br>
+taglio:=evalf(subs(z=ascissa,pt[campata]));<br>
+sigma:=evalf(subs(z=ascissa,k*pw[campata]/(E*J)));</font></b>
+</p>
+<p align=center>
+<img src="images/WinklerN7.gif" width=100 height=20 alt="campata := 1">
+</p>
+<p align=center>
+<img src="images/WinklerN8.gif" width=125 height=20 alt="ascissa := 1800.0">
+</p>
+<p align=center>
+<img src="images/WinklerN9.gif" width=220 height=20 alt="abbassamento := .4518921742e-1">
+</p>
+<p align=center>
+<img src="images/WinklerN10.gif" width=215 height=29 alt="rotazione := .1153218789e-6">
+</p>
+<p align=center>
+<img src="images/WinklerN11.gif" width=186 height=20 alt="momento := -553139.9791">
+</p>
+<p align=center>
+<img src="images/WinklerN12.gif" width=163 height=20 alt="taglio := -4999.595141">
+</p>
+<p align=center>
+<img src="images/WinklerN13.gif" width=130 height=20 alt="sigma := .2259460871">
+</p>
+</basefont>
+</body>
+</html>
