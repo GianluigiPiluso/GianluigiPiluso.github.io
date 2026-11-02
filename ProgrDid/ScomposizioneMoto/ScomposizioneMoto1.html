@@ -1,0 +1,154 @@
+<html>
+<head>
+<title>ScomposizioneMoto.html</title>
+<!-- Created by Maple 7.00, IBM INTEL NT -->
+</head>
+<body bgcolor="FFFFFF">
+<basefont size=3>
+<a name="MapleAutoBookmark1">
+<p align=center>
+<b><u><font color=#000000 size=5>Moto Parabolico - Scomposizione del Moto</font></u></b>
+</p>
+<p align=center>
+<font color=#000000>G.Piluso e R.Virili - 2003</font>
+</p>
+<p align=left>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>restart: </font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>with(plots):</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>yo := 0.0:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>xo := 0.0:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>g := 9.81:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>V:=20:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>theta:= 0:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>Vx:=V*cos(theta):</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>Vy:=V*sin(theta):</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>x := Vx*t+xo:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>y := -g*t^2+Vy*t+yo:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>N:=20:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>px:=t-&gt;Vx*t+xo:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>A:=array(0..N):for i from 0 to N do A[i]:=px(i);od:#print(A):</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>py:=t-&gt;-g*t^2+Vy*t+yo:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>B:=array(0..N):for i from 0 to N do B[i]:=py(i);od:#print(B):</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>puntixy:=pointplot({seq([A[i],B[i]],i=0..N)},color=blue):</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>px:=t-&gt;Vx*t+xo:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>AA:=array(0..N):for i from 0 to N do AA[i]:=px(i);od:#print(AA):</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>py:=t-&gt;0:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>BB:=array(0..N):for i from 0 to N do BB[i]:=py(i);od:#print(BB);</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>puntix:=pointplot({seq([AA[i],BB[i]],i=0..N)},color=red):</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>px:=t-&gt;0:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>AAA:=array(0..N):for i from 0 to N do AAA[i]:=px(i);od:#print(AAA):</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>py:=t-&gt;-g*t^2+Vy*t+yo:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>BBB:=array(0..N):for i from 0 to N do BBB[i]:=py(i);od:#print(BBB);</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>puntiy:=pointplot({seq([AAA[i],BBB[i]],i=0..N)},color=magenta):</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>display({puntixy,puntix,puntiy},title="Moto Parabolico");</font></b>
+</p>
+<p align=center>
+<img src="images/ScomposizioneMoto1.gif" width=388 height=288 alt="[Maple Plot]">
+</p>
+<p align=left>
+<tt>&gt; </tt>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>points:= { seq([0,x,y],t=0..N)}:<br>
+pointplot3d(points,axes=boxed,symbol=circle);</font></b>
+</p>
+<p align=center>
+<img src="images/ScomposizioneMoto2.gif" width=388 height=288 alt="[Maple Plot]">
+</p>
+</basefont>
+</body>
+</html>

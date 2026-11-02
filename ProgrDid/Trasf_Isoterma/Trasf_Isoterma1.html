@@ -1,0 +1,74 @@
+<html>
+<head>
+<title>Trasf_Isoterma.html</title>
+<!-- Created by Maple 7.00, IBM INTEL NT -->
+</head>
+<body bgcolor="FFFFFF">
+<basefont size=3>
+<a name="MapleAutoBookmark1">
+<a name="MapleAutoBookmark2">
+<p align=left>
+<b><font color=#000000 size=5>Trasformazione Isoterma - Moto Oscillatorio</font></b>
+</p>
+<p align=center>
+<font color=#000000>G.Piluso - Marzo 2004</font>
+</p>
+<p align=left>
+<font color=#000000>Supponiamo di avere un cilindro ed un pistone di massa "m". Supponendo la trasformazione isoterma, cosa succede se lo sposto dalla sua posizione di equilibrio... </font>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>restart:<br>
+with(plots):<br>
+with(plottools):<br>
+with(DEtools):</font></b>
+</p>
+<a name="MapleAutoBookmark3">
+<p align=left>
+<b><font color=#000000 size=5>Equazione Differenziale e Condizioni al Contorno</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>ode1:=m*diff(x(t),t$2)=-k/(h-x(t))-c*diff(x(t),t)+Peso;</font></b>
+</p>
+<p align=center>
+<img src="images/Trasf_Isoterma1.gif" width=371 height=63 alt="ode1 := m*diff(x(t),`$`(t,2)) = -k/(h-x(t))-c*diff(...">
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>ic1:={x(0)=2.5,D(x)(0)=0}:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>sol1:=dsolve({ode1} union ic1, {x(t)},type=numeric):</font></b>
+</p>
+<a name="MapleAutoBookmark4">
+<p align=left>
+<b><font color=#000000 size=5>Dati</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>m:=1.0:<br>
+k:=5:<br>
+c:=0.2:<br>
+h:=10.0:<br>
+g:=9.81:<br>
+Peso:=m*g:<br>
+r:=0.5:<br>
+A:=Pi*r^2:<br>
+k:=Peso*h*A:</font></b>
+</p>
+<a name="MapleAutoBookmark5">
+<p align=left>
+<b><font color=#000000 size=5>Grafico</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>odeplot(sol1,t=0..50);</font></b>
+</p>
+<p align=center>
+<img src="images/Trasf_Isoterma2.gif" width=388 height=288 alt="[Maple Plot]">
+</p>
+</basefont>
+</body>
+</html>

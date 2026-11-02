@@ -1,0 +1,79 @@
+<html>
+<head>
+<title>ProiettileBersaglio.html</title>
+<!-- Created by Maple 7.00, IBM INTEL NT -->
+</head>
+<body bgcolor="FFFFFF">
+<basefont size=3>
+<a name="MapleAutoBookmark1">
+<a name="MapleAutoBookmark2">
+<p align=center>
+<b><font color=#000000 size=5>Proiettile e Bersaglio - Moto Parabolico</font></b>
+</p>
+<p align=center>
+<font color=#000000>G.Piluso e R.Virili - 2003<br>
+</font>
+</p>
+<a name="MapleAutoBookmark3">
+<p align=left>
+<b><font color=#000000 size=5>Inizializzazione</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>restart:<br>
+with(plots):<br>
+with(plottools):</font></b>
+</p>
+<a name="MapleAutoBookmark4">
+<p align=left>
+<b><font color=#000000 size=5>Dati iniziali</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>yo:=0:<br>
+vo:=40:<br>
+theta:=Pi/3:<br>
+targx:=40:<br>
+B_Vy:=0:</font></b>
+</p>
+<a name="MapleAutoBookmark5">
+<p align=left>
+<b><font color=#000000 size=5>Equazioni del Proiettile</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>Vx:=vo*cos(theta):<br>
+Vy:=vo*sin(theta):<br>
+h:=targx*tan(theta)+yo:<br>
+projx:=Vx*t:<br>
+projy:=yo+Vy*t-1/2*9.8*t^2:<br>
+proiettile:=()-&gt;animatecurve([projx,projy,t=0..targx/Vx],style=point,symbol=circle,numpoints=20):</font></b>
+</p>
+<a name="MapleAutoBookmark6">
+<p align=left>
+<b><font color=#000000 size=5>Equazioni del Bersaglio</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>yyo:=h:<br>
+targy:=yyo+B_Vy*s-1/2*9.8*s^2:<br>
+bersaglio:=()-&gt;animatecurve([targx,targy,s=0..targx/Vx],color=blue,style=point,symbol=circle,numpoints=8):</font></b>
+</p>
+<a name="MapleAutoBookmark7">
+<p align=left>
+<b><font color=#000000 size=5>Rappresentazione grafica</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>sparo:=()-&gt;display(proiettile(),bersaglio()):</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>sparo();</font></b>
+</p>
+<p align=center>
+<img src="images/ProiettileBersaglio1.gif" width=388 height=288 alt="[Maple Plot]">
+</p>
+</basefont>
+</body>
+</html>

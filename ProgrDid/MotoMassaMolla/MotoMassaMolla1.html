@@ -1,0 +1,182 @@
+<html>
+<head>
+<title>MotoMassaMolla.html</title>
+<!-- Created by Maple 7.00, IBM INTEL NT -->
+</head>
+<body bgcolor="FFFFFF">
+<basefont size=3>
+<a name="MapleAutoBookmark1">
+<p align=center>
+<b><u><font color=#000000 size=5>Equazioni del Moto e Frequenza Propria</font></u></b>
+</p>
+<p align=center>
+<font color=#000000>Molla - Smorzatore -  Massa - Oscillazione Forzata</font>
+</p>
+<p align=center>
+<font color=#000000 size=2>G.Piluso - 5luglio 2003</font>
+</p>
+<a name="MapleAutoBookmark2">
+<p align=left>
+<b><font color=#000000 size=5>Inizializzazione</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+restart:<br>
+with(plots):</font></b>
+</p>
+<a name="MapleAutoBookmark3">
+<p align=left>
+<b><font color=#000000 size=5>Equazione differenziale del moto</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+ode1:={m*diff(x(t),t,t)+c*diff(x(t),t)+k*(delta+x(t),x(t))-m*g=Fo*sin(alpha*t)}:</font></b>
+</p>
+<a name="MapleAutoBookmark4">
+<p align=left>
+<b><font color=#000000 size=5>Qualche calcolo...</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+subs(m*g=k*delta,ode1):<br>
+simplify(%):</font></b>
+</p>
+<a name="MapleAutoBookmark5">
+<p align=left>
+<b><font color=#000000 size=5>Soluzione generale</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+soln:=dsolve(%):</font></b>
+</p>
+<a name="MapleAutoBookmark6">
+<p align=left>
+<b><font color=#000000 size=5>Condizione al contorno</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+ic:={x(0)=xo,D(x)(0)=v}:</font></b>
+</p>
+<a name="MapleAutoBookmark7">
+<p align=left>
+<b><font color=#000000 size=5>Soluzione dell'equazione differenziale e determinazione delle costanti di integrazione</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+soln:=dsolve(%%% union ic,x(t)):<br>
+eval(x(t),%):<br>
+grafico:=unapply(%,t):</font></b>
+</p>
+<a name="MapleAutoBookmark8">
+<p align=left>
+<b><font color=#000000 size=5> Frequenza propria (naturale)</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+omega:=sqrt(k/m):</font></b>
+</p>
+<a name="MapleAutoBookmark9">
+<p align=left>
+<b><font color=#000000 size=5> Fattore di smorzamento</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+xi:=c/(2*m*omega):</font></b>
+</p>
+<a name="MapleAutoBookmark10">
+<p align=left>
+<b><font color=#000000 size=5>Frequenza propria smorzata</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+omega_d:=sqrt(1-xi^2)*omega: </font></b>
+</p>
+<a name="MapleAutoBookmark11">
+<p align=left>
+<b><font color=#000000 size=5>Periodo e frequenza</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+T:=2*Pi/omega:<br>
+f:=1/T:</font></b>
+</p>
+<p align=left>
+<b><font color=#000000 size=5>Dati Iniziali</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+xo:=3.0:<br>
+v:=0.0:<br>
+k:=1.0:<br>
+c:=0.3:<br>
+m:=1.0:<br>
+Fo:=4.0:<br>
+alpha:=3.0:<br>
+</font></b>
+</p>
+<a name="MapleAutoBookmark12">
+<p align=left>
+<b><font color=#000000 size=5>Grafico</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+plot(grafico(t),t=0..30);</font></b>
+</p>
+<p align=center>
+<img src="images/MotoMassaMolla1.gif" width=388 height=288 alt="[Maple Plot]">
+</p>
+<a name="MapleAutoBookmark13">
+<p align=left>
+<b><font color=#000000 size=5>Qualche valore</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+omega;<br>
+xi;<br>
+omega_d;<br>
+omega_d/omega;<br>
+T;<br>
+f;<br>
+evalf(T);<br>
+evalf(f);</font></b>
+</p>
+<p align=center>
+<img src="images/MotoMassaMolla2.gif" width=100 height=20 alt="1.000000000">
+</p>
+<p align=center>
+<img src="images/MotoMassaMolla3.gif" width=100 height=20 alt=".1500000000">
+</p>
+<p align=center>
+<img src="images/MotoMassaMolla4.gif" width=100 height=20 alt=".9886859965">
+</p>
+<p align=center>
+<img src="images/MotoMassaMolla5.gif" width=100 height=20 alt=".9886859965">
+</p>
+<p align=center>
+<img src="images/MotoMassaMolla6.gif" width=114 height=20 alt="2.000000000*Pi">
+</p>
+<p align=center>
+<img src="images/MotoMassaMolla7.gif" width=118 height=45 alt=".5000000000*1/Pi">
+</p>
+<p align=center>
+<img src="images/MotoMassaMolla8.gif" width=100 height=20 alt="6.283185308">
+</p>
+<p align=center>
+<img src="images/MotoMassaMolla9.gif" width=100 height=20 alt=".1591549430">
+</p>
+</basefont>
+</body>
+</html>

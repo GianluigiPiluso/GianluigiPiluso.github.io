@@ -1,0 +1,66 @@
+<html>
+<head>
+<title>M1M1M2M2.html</title>
+<!-- Created by Maple 7.00, IBM INTEL NT -->
+</head>
+<body bgcolor="FFFFFF">
+<basefont size=3>
+<a href="M1M1M2M2.html#MapleAutoBookmark1">M1M1M2M2.MWS</a>
+<ul>
+<li><font size=-1><a href="M1M1M2M2.html#MapleAutoBookmark2">Equazioni del Moto per un sistema molla1-massa1-molla2massa2</a></font>
+</ul>
+<hr>
+<a name="MapleAutoBookmark1">
+<a name="MapleAutoBookmark2">
+<p align=left>
+<b><font color=#000000 size=5>Equazioni del Moto per un sistema molla1-massa1-molla2massa2</font></b>
+</p>
+<p align=left>
+<font color=#000000>G.Piluso - a.s. 2004-05</font>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>restart:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>eq1:=m1*diff(x1(t),t$2)+(k2+k1)*x1(t)-k2*x2(t)=0;<br>
+eq2:=m2*diff(x2(t),t$2)+k2*x2(t)-k2*x1(t)=0;</font></b>
+</p>
+<p align=center>
+<img src="images/M1M1M2M21.gif" width=373 height=63 alt="eq1 := m1*diff(x1(t),`$`(t,2))+(k2+k1)*x1(t)-k2*x2(...">
+</p>
+<p align=center>
+<img src="images/M1M1M2M22.gif" width=326 height=63 alt="eq2 := m2*diff(x2(t),`$`(t,2))+k2*x2(t)-k2*x1(t) = ...">
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>m1:=1.0:  m2:=1.0:<br>
+k1:=1.0:  k2:=1.0:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>ic:={x1(0)=1,  D(x1)(0)=0,<br>
+     x2(0)=0,  D(x2)(0)=0}:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>soluzione:=dsolve({eq1,eq2} union ic,{x1(t),x2(t)}):</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>y1:=eval(x1(t),soluzione):<br>
+y2:=eval(x2(t),soluzione):<br>
+f1:=unapply(y1,t):<br>
+f2:=unapply(y2,t):</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>plot([f1(t),f2(t),f1(t)+f2(t)],t=0..10,title="Equazioni del moto: molla1-massa1-molla2-massa2");</font></b>
+</p>
+<p align=center>
+<img src="images/M1M1M2M23.gif" width=388 height=288 alt="[Maple Plot]">
+</p>
+</basefont>
+</body>
+</html>

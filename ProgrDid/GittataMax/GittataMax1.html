@@ -1,0 +1,109 @@
+<html>
+<head>
+<title>GittataMax.html</title>
+<!-- Created by Maple 7.00, IBM INTEL NT -->
+</head>
+<body bgcolor="FFFFFF">
+<basefont size=3>
+<a name="MapleAutoBookmark1">
+<p align=center>
+<b><u><font color=#000000 size=5>Moto Parabolico - Massima Gittata</font></u></b>
+</p>
+<p align=center>
+<font color=#000000>G.Piluso e R.Virili - 2003</font>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>restart:<br>
+with(plots): </font></b>
+</p>
+<p align=left>
+<font color=#000000>Grafica delle gittate per vari angoli</font>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>N:=5: #Numero di gittate</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>yo := 0.0:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>xo := 0.0:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>g := 9.81:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>V:=30:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>Vx:=V*cos(theta):</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>Vy:=V*sin(theta):</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>x := Vx*t+xo:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>y := -g*t^2+Vy*t+yo:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>theta:=array(1..N):</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>tr:=array(1..N):</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>MioCol:=array(1..N):</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>angolo:=0:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>for i from 1 by 1 to N do<br>
+  angolo:=angolo+15:<br>
+  theta[i]:=angolo*Pi/180:<br>
+  MioCol[i]:=<br>
+    COLOR(RGB,rand()/10^12,<br>
+      rand()/10^12,rand()*i/10^12):<br>
+end do:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>for i from 1 by 1 to N do<br>
+  tr[i]:=animatecurve(<br>
+    [xo+V*cos(theta[i])*t,<br>
+    yo+V*sin(theta[i])*t-4.900000000*t^2,<br>
+    t=0..110/(V*cos(theta[i]))],<br>
+    view=[0..110,0..50],<br>
+    frames=50,<br>
+    scaling=constrained,<br>
+    color=MioCol[i],<br>
+    thickness=2,<br>
+    title="Gittate per vari angoli - Animazione"):<br>
+end do:</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000>display(seq(tr[i], i=1..N));</font></b>
+</p>
+<p align=center>
+<img src="images/GittataMax1.gif" width=388 height=288 alt="[Maple Plot]">
+</p>
+</basefont>
+</body>
+</html>
