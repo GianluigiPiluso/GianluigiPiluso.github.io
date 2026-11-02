@@ -1,0 +1,448 @@
+<html>
+<head>
+<title>Telaio2.html</title>
+<!-- Created by Maple 7.00, IBM INTEL NT -->
+</head>
+<body bgcolor="FFFFFF">
+<basefont size=3>
+<a name="MapleAutoBookmark1">
+<a name="MapleAutoBookmark2">
+<p align=left>
+<b><font color=#000000 size=5>Telaio a Nodi Spostabili: Maglie di Forma Qualsiasi</font></b>
+</p>
+<p align=center>
+<font color=#000000>G.Piluso Febbraio - 2004</font>
+</p>
+<p align=left>
+<font color=#000000>Vengono assunti positivi:<br>
+1 - gli spostamenti verticali verso l'alto;<br>
+2 - gli spostamenti orizzontali verso sinistra;<br>
+3 - le rotazioni orarie;<br>
+4 - i carichi verticali verso il basso;<br>
+5 - i carichi orizzontali verso destra;<br>
+5 - le coppie antiorarie;<br>
+L'esempio e la teoria è stata tratta dal libro di M.Capurso "Introduzione al Calcolo Automatico delle Strutture" - Edizioni Scientifiche A.Cremonese - Roma - Ristampa 1981.</font>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+restart:<br>
+with(linalg):<br>
+with(plots):<br>
+with(plottools):</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+NI:=16: # Numero delle Incognite<br>
+NT:=8: # Numero delle Aste<br>
+<br>
+x1:=array(1..NT): y1:=array(1..NT):<br>
+x2:=array(1..NT): y2:=array(1..NT):<br>
+L:=array(1..NT):<br>
+E:=array(1..NT):<br>
+J:=array(1..NT):<br>
+Ar:=array(1..NT):<br>
+p:=array(1..NT):<br>
+q:=array(1..NT):<br>
+<br>
+N:=array(1..NT,1..6):<br>
+k:=array(1..6,1..6):<br>
+kk:=array(1..6,1..6):<br>
+V:=array(1..6,1..6):<br>
+omega:=array(1..6,1..6):<br>
+so:=array(1..6):<br>
+sso:=array(1..6):<br>
+ro:=array(1..6):<br>
+r1:=array(1..6):<br>
+<br>
+Uo:=array(1..6):<br>
+Sol:=array(1..6):<br>
+yo:=array(1..NI):<br>
+X:=array(1..NI):<br>
+A:=array(1..NI,1..NI):<br>
+B:=array(1..NI,1..NI):</font></b>
+</p>
+<a name="MapleAutoBookmark3">
+<p align=left>
+<b><font color=#000000 size=5>Matrice di Rigidezza della Trave Generica</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+# colonna 1<br>
+k[1,1]:=4*E[t]*J[t]/L[t]:<br>
+k[2,1]:=-6*E[t]*J[t]/L[t]^2:<br>
+k[3,1]:=0:<br>
+k[4,1]:=2*E[t]*J[t]/L[t]:<br>
+k[5,1]:=6*E[t]*J[t]/L[t]^2:<br>
+k[6,1]:=0:<br>
+<br>
+# colonna 2<br>
+k[1,2]:=-6*E[t]*J[t]/L[t]^2:<br>
+k[2,2]:=12*E[t]*J[t]/L[t]^3:<br>
+k[3,2]:=0:<br>
+k[4,2]:=-6*E[t]*J[t]/L[t]^2:<br>
+k[5,2]:=-12*E[t]*J[t]/L[t]^3:<br>
+k[6,2]:=0:<br>
+<br>
+# colonna 3<br>
+k[1,3]:=0:<br>
+k[2,3]:=0:<br>
+k[3,3]:=E[t]*Ar[t]/L[t]:<br>
+k[4,3]:=0:<br>
+k[5,3]:=0:<br>
+k[6,3]:=-E[t]*Ar[t]/L[t]:<br>
+<br>
+# colonna 4<br>
+k[1,4]:=2*E[t]*J[t]/L[t]:<br>
+k[2,4]:=-6*E[t]*J[t]/L[t]^2:<br>
+k[3,4]:=0:<br>
+k[4,4]:=4*E[t]*J[t]/L[t]:<br>
+k[5,4]:=6*E[t]*J[t]/L[t]^2:<br>
+k[6,4]:=0:<br>
+<br>
+# colonna 5<br>
+k[1,5]:=6*E[t]*J[t]/L[t]^2:<br>
+k[2,5]:=-12*E[t]*J[t]/L[t]^3:<br>
+k[3,5]:=0:<br>
+k[4,5]:=6*E[t]*J[t]/L[t]^2:<br>
+k[5,5]:=12*E[t]*J[t]/L[t]^3:<br>
+k[6,5]:=0:<br>
+<br>
+# colonna 6<br>
+k[1,6]:=0:<br>
+k[2,6]:=0:<br>
+k[3,6]:=-E[t]*Ar[t]/L[t]:<br>
+k[4,6]:=0:<br>
+k[5,6]:=0:<br>
+k[6,6]:=E[t]*Ar[t]/L[t]:<br>
+<br>
+# colonna 1<br>
+omega[1,1]:=1:<br>
+omega[2,1]:=0:<br>
+omega[3,1]:=0:<br>
+omega[4,1]:=0:<br>
+omega[5,1]:=0:<br>
+omega[6,1]:=0:<br>
+<br>
+# colonna 2<br>
+omega[1,2]:=0:<br>
+omega[2,2]:=(x2[t]-x1[t])/L[t]:<br>
+omega[3,2]:=(y2[t]-y1[t])/L[t]:<br>
+omega[4,2]:=0:<br>
+omega[5,2]:=0:<br>
+omega[6,2]:=0:<br>
+<br>
+# colonna 3<br>
+omega[1,3]:=0:<br>
+omega[2,3]:=-(y2[t]-y1[t])/L[t]:<br>
+omega[3,3]:=(x2[t]-x1[t])/L[t]:<br>
+omega[4,3]:=0:<br>
+omega[5,3]:=0:<br>
+omega[6,3]:=0:<br>
+<br>
+# colonna 4<br>
+omega[1,4]:=0:<br>
+omega[2,4]:=0:<br>
+omega[3,4]:=0:<br>
+omega[4,4]:=1:<br>
+omega[5,4]:=0:<br>
+omega[6,4]:=0:<br>
+<br>
+# colonna 5<br>
+omega[1,5]:=0:<br>
+omega[2,5]:=0:<br>
+omega[3,5]:=0:<br>
+omega[4,5]:=0:<br>
+omega[5,5]:=(x2[t]-x1[t])/L[t]:<br>
+omega[6,5]:=(y2[t]-y1[t])/L[t]:<br>
+<br>
+# colonna 6<br>
+omega[1,6]:=0:<br>
+omega[2,6]:=0:<br>
+omega[3,6]:=0:<br>
+omega[4,6]:=0:<br>
+omega[5,6]:=-(y2[t]-y1[t])/L[t]:<br>
+omega[6,6]:=(x2[t]-x1[t])/L[t]:<br>
+<br>
+# reazioni d'incastro perfetto perpendicolari<br>
+so[1]:=-p[t]*L[t]^2/12:<br>
+so[2]:=p[t]*L[t]/2:<br>
+so[3]:=0:<br>
+so[4]:=p[t]*L[t]^2/12:<br>
+so[5]:=p[t]*L[t]/2:<br>
+so[6]:=0:<br>
+<br>
+# reazioni d'incastro perfetto paralleli<br>
+sso[1]:=0:<br>
+sso[2]:=0:<br>
+sso[3]:=q[t]*L[t]/2:<br>
+sso[4]:=0:<br>
+sso[5]:=0:<br>
+sso[6]:=q[t]*L[t]/2:</font></b>
+</p>
+<a name="MapleAutoBookmark4">
+<p align=left>
+<b><font color=#000000 size=5>Dati (M.Capurso pag.238 fig.9)</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+# Coordinate delle Aste<br>
+x1[1]:=0:    y1[1]:=0:    x2[1]:=0:    y2[1]:=900:<br>
+x1[2]:=0:    y1[2]:=900:  x2[2]:=300:  y2[2]:=1100:<br>
+x1[3]:=300:  y1[3]:=1100: x2[3]:=600:  y2[3]:=900:<br>
+x1[4]:=600:  y1[4]:=0:    x2[4]:=600:  y2[4]:=900:<br>
+x1[5]:=600:  y1[5]:=900:  x2[5]:=600:  y2[5]:=1700:<br>
+x1[6]:=600:  y1[6]:=1700: x2[6]:=1200: y2[6]:=2000:<br>
+x1[7]:=1200: y1[7]:=2000: x2[7]:=1800: y2[7]:=1700:<br>
+x1[8]:=1800: y1[8]:=0:    x2[8]:=1800: y2[8]:=1700:<br>
+<br>
+# Lunghezze delle Aste<br>
+for t from 1 to NT do<br>
+ L[t]:=sqrt((x2[t]-x1[t])^2+(y2[t]-y1[t])^2);<br>
+end do:<br>
+<br>
+Ar[1]:=40*50.0:<br>
+Ar[2]:=30*80.0:<br>
+Ar[3]:=30*80.0:<br>
+Ar[4]:=50*70.0:<br>
+Ar[5]:=40*55.0:<br>
+Ar[6]:=40*120.0:<br>
+Ar[7]:=40*120.0:<br>
+Ar[8]:=20*70.0:<br>
+<br>
+# Momenti di Inerzia delle Aste<br>
+J[1]:=40.0*50.0^3/12:<br>
+J[2]:=30.0*80.0^3/12:<br>
+J[3]:=30.0*80.0^3/12:<br>
+J[4]:=50.0*70.0^3/12:<br>
+J[5]:=40.0*55.0^3/12:<br>
+J[6]:=40.0*120.0^3/12:<br>
+J[7]:=40.0*120.0^3/12:<br>
+J[8]:=20.0*70.0^3/12:<br>
+<br>
+# Moduli di Elasticità delle Aste<br>
+E[1]:=300000.0:<br>
+E[2]:=300000.0:<br>
+E[3]:=300000.0:<br>
+E[4]:=300000.0:<br>
+E[5]:=300000.0:<br>
+E[6]:=300000.0:<br>
+E[7]:=300000.0:<br>
+E[8]:=300000.0:<br>
+<br>
+# Carichi Perpendicolari Distribuiti sulle Aste<br>
+p[1]:=0.0:<br>
+p[2]:=21.9:<br>
+p[3]:=21.9:<br>
+p[4]:=0.0:<br>
+p[5]:=0.0:<br>
+p[6]:=29.0:<br>
+p[7]:=29.0:<br>
+p[8]:=0.0:<br>
+<br>
+# Carichi Paralleli Distribuiti sulle Aste<br>
+q[1]:=0.0:<br>
+q[2]:=14.5:<br>
+q[3]:=-14.5:<br>
+q[4]:=0.0:<br>
+q[5]:=0.0:<br>
+q[6]:=14.5:<br>
+q[7]:=-14.5:<br>
+q[8]:=0.0:<br>
+<br>
+# Coppie e Forze Concentrate nei Nodi della Struttura<br>
+yo[1]:=0.0:<br>
+yo[2]:=0.0:<br>
+yo[3]:=0.0:<br>
+yo[4]:=0.0:<br>
+yo[5]:=0.0:<br>
+yo[6]:=0.0:<br>
+yo[7]:=0.0:<br>
+yo[8]:=0.0:<br>
+yo[9]:=0.0:<br>
+yo[10]:=0.0:<br>
+yo[11]:=0.0:<br>
+yo[12]:=0.0:<br>
+yo[13]:=0.0:<br>
+yo[14]:=0.0:<br>
+yo[15]:=0.0:<br>
+yo[16]:=0.0:<br>
+<br>
+# Parametri di Spostamento Nodale<br>
+N:=[<br>
+[0,0,0,1,2,3],<br>
+[1,2,3,4,5,6],<br>
+[4,5,6,7,8,9],<br>
+[0,0,0,7,8,9],<br>
+[7,8,9,10,11,12],<br>
+[10,11,12,13,14,15],<br>
+[13,14,15,0,16,0],<br>
+[0,0,0,0,16,0]<br>
+]:</font></b>
+</p>
+<a name="MapleAutoBookmark5">
+<p align=left>
+<b><font color=#000000 size=5>Azzero la Matrice ed i Vettori</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+for i from 1 to 6 do<br>
+ Sol[i]:=0.0;<br>
+end do:<br>
+<br>
+for i from 1 to NI do<br>
+ for j from 1 to NI do<br>
+  A[i,j]:=0.0:<br>
+ end do:<br>
+end do:</font></b>
+</p>
+<a name="MapleAutoBookmark6">
+<p align=left>
+<b><font color=#000000 size=5>Costruzione della Matrice A e del Vettore yo</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+for t from 1 to NT do<br>
+ evalm(k):<br>
+ evalm(omega):<br>
+ kk:=evalm(transpose(omega) &amp;* (k &amp;* omega)):<br>
+ for i from 1 to 6 do<br>
+  R:=N[t,i]:<br>
+  for j from 1 to 6 do<br>
+   S:=N[t,j]:<br>
+   if R &lt;&gt; 0 and S &lt;&gt; 0 then<br>
+    A[R,S]:=evalf(A[R,S])+evalf(kk[i,j]):<br>
+   end if:<br>
+  end do:<br>
+ end do:<br>
+end do:<br>
+evalm(A):<br>
+<br>
+for t from 1 to NT do<br>
+ evalm(omega):<br>
+ evalm(so):<br>
+ evalm(sso):<br>
+ ro:=evalm(transpose(omega) &amp;* so):<br>
+ r1:=evalm(transpose(omega) &amp;* sso):<br>
+ for i from 1 to 6 do  <br>
+  R:=N[t,i]:<br>
+  if R &lt;&gt; 0 then<br>
+   yo[R]:=evalf(yo[R]) + evalf(ro[i]):<br>
+  end if;<br>
+ end do:<br>
+ evalm(yo):<br>
+ for i from 1 to 6 do  <br>
+  R:=N[t,i]:<br>
+  if R &lt;&gt; 0 then<br>
+   yo[R]:=evalf(yo[R]) + evalf(r1[i]):<br>
+  end if;<br>
+ end do:<br>
+end do:<br>
+evalm(yo):</font></b>
+</p>
+<a name="MapleAutoBookmark7">
+<p align=left>
+<b><font color=#000000 size=5>Soluzione: Rotazioni e Spostamenti</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+B:=inverse(A):<br>
+X:=evalm(B&amp;*(-yo));</font></b>
+</p>
+<p align=left>
+<img src="images/Telaio21.gif" width=493 height=20 alt="X := vector([.4097964625e-3, -.1478235734e-1, -.295...">
+<br>
+<img src="images/Telaio22.gif" width=534 height=20 alt="X := vector([.4097964625e-3, -.1478235734e-1, -.295...">
+<br>
+<img src="images/Telaio23.gif" width=552 height=20 alt="X := vector([.4097964625e-3, -.1478235734e-1, -.295...">
+<br>
+<img src="images/Telaio24.gif" width=211 height=20 alt="X := vector([.4097964625e-3, -.1478235734e-1, -.295...">
+</p>
+<a name="MapleAutoBookmark8">
+<p align=left>
+<b><font color=#000000 size=5>Soluzione: Momenti e Tagli</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+for t from 1 to NT do<br>
+ for i from 1 to 6 do  <br>
+  R:=N[t,i]:<br>
+  Uo[i]:=0.0:<br>
+  if R &lt;&gt; 0 then<br>
+   Uo[i]:=X[R]:<br>
+  end if:<br>
+ end do:<br>
+<br>
+ evalf(evalm(omega)):<br>
+ kk:=evalm(transpose(omega) &amp;* (k &amp;* omega)):<br>
+ Sol:=evalm(kk &amp;* Uo):<br>
+ Sol:=evalm(omega &amp;* Sol):<br>
+ for i from 1 to 6 do<br>
+  Sol[i]:=evalf(Sol[i]+so[i]+sso[i]):<br>
+ end do:<br>
+ print('Asta ' - t, Sol);<br>
+end do: </font></b>
+</p>
+<p align=left>
+<img src="images/Telaio25.gif" width=83 height=20 alt="Asta-1, vector([387655.2415, -987.9364821, 9854.904...">
+<br>
+<img src="images/Telaio26.gif" width=579 height=20 alt="Asta-1, vector([387655.2415, -987.9364821, 9854.904...">
+</p>
+<p align=left>
+<img src="images/Telaio27.gif" width=83 height=20 alt="Asta-2, vector([-501487.5902, 7651.767990, 6288.530...">
+<br>
+<img src="images/Telaio28.gif" width=577 height=20 alt="Asta-2, vector([-501487.5902, 7651.767990, 6288.530...">
+</p>
+<p align=left>
+<img src="images/Telaio29.gif" width=74 height=20 alt="Asta-3, vector([833896.5940, 884.909726, 633.467396...">
+<br>
+<img src="images/Telaio210.gif" width=564 height=20 alt="Asta-3, vector([833896.5940, 884.909726, 633.467396...">
+</p>
+<p align=left>
+<img src="images/Telaio211.gif" width=74 height=20 alt="Asta-4, vector([117333.6931, 222.283617, 26417.5322...">
+<br>
+<img src="images/Telaio212.gif" width=576 height=20 alt="Asta-4, vector([117333.6931, 222.283617, 26417.5322...">
+</p>
+<p align=left>
+<img src="images/Telaio213.gif" width=74 height=20 alt="Asta-5, vector([46844.2914, -765.6527742, 17332.437...">
+<br>
+<img src="images/Telaio214.gif" width=578 height=20 alt="Asta-5, vector([46844.2914, -765.6527742, 17332.437...">
+</p>
+<p align=left>
+<img src="images/Telaio215.gif" width=582 height=29 alt="Asta-6, vector([-565677.9226, 15160.19271, 8436.122...">
+<br>
+<img src="images/Telaio216.gif" width=107 height=20 alt="Asta-6, vector([-565677.9226, 15160.19271, 8436.122...">
+</p>
+<p align=left>
+<img src="images/Telaio217.gif" width=513 height=29 alt="Asta-7, vector([3079088.528, -3608.778036, 2660.414...">
+<br>
+<img src="images/Telaio218.gif" width=205 height=20 alt="Asta-7, vector([3079088.528, -3608.778036, 2660.414...">
+</p>
+<p align=center>
+<img src="images/Telaio219.gif" width=354 height=20 alt="Asta-8, vector([0., 0., 26167.56284, 0., 0., -26167...">
+</p>
+<a name="MapleAutoBookmark9">
+<p align=left>
+<b><font color=#000000 size=5>Schema della Struttura</font></b>
+</p>
+<p align=left>
+<tt>&gt; </tt>
+<b><font color=#FF0000><br>
+for t from 1 to NT do<br>
+ linea[t]:=line([x1[t],y1[t]],[x2[t],y2[t]],color=red):<br>
+end do:<br>
+plots[display](seq(linea[t],t=1..NT),axes=none);</font></b>
+</p>
+<p align=center>
+<img src="images/Telaio220.gif" width=388 height=288 alt="[Maple Plot]">
+</p>
+</basefont>
+</body>
+</html>
